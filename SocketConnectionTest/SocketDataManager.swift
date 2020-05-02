@@ -39,8 +39,8 @@ class SocketDataManager: NSObject, StreamDelegate {
         inputStream = readStream?.takeRetainedValue()
         outputStream?.delegate = self
         inputStream?.delegate = self
-        outputStream?.schedule(in: RunLoop.current, forMode: .defaultRunLoopMode)
-        inputStream?.schedule(in: RunLoop.current, forMode: .defaultRunLoopMode)
+        outputStream?.schedule(in: RunLoop.current, forMode: RunLoop.Mode.default)
+        inputStream?.schedule(in: RunLoop.current, forMode: RunLoop.Mode.default)
         outputStream?.open()
         inputStream?.open()
     }
@@ -50,8 +50,8 @@ class SocketDataManager: NSObject, StreamDelegate {
         uiPresenter?.resetUIWithConnection(status: false)
         inputStream?.close()
         outputStream?.close()
-        inputStream?.remove(from: RunLoop.current, forMode: .defaultRunLoopMode)
-        outputStream?.remove(from: RunLoop.current, forMode: .defaultRunLoopMode)
+        inputStream?.remove(from: RunLoop.current, forMode: RunLoop.Mode.default)
+        outputStream?.remove(from: RunLoop.current, forMode: RunLoop.Mode.default)
         inputStream?.delegate = nil
         outputStream?.delegate = nil
         inputStream = nil
@@ -85,7 +85,7 @@ class SocketDataManager: NSObject, StreamDelegate {
             print("\(aStream.streamError?.localizedDescription ?? "")")
         case .endEncountered:
             aStream.close()
-            aStream.remove(from: RunLoop.current, forMode: .defaultRunLoopMode)
+            aStream.remove(from: RunLoop.current, forMode: RunLoop.Mode.default)
             print("close stream")
             uiPresenter?.resetUIWithConnection(status: false)
         default:
